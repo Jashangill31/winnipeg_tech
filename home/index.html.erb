@@ -1,0 +1,6 @@
+<h2>Filter Products</h2>
+<ul>
+  <li><%= link_to "All Products", products_path %></li>
+  <li><%= link_to "New Products", products_path(filter: "new") %></li>
+  <li><%= link_to "Recently Updated", products_path(filter: "recent") %></li>
+</ul>

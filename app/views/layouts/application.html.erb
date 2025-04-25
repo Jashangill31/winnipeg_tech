@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Winnipeg Tech Hub</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+
+  <body>
+    <header style="background: #f2f2f2; padding: 10px;">
+      <nav style="display: flex; align-items: center; flex-wrap: wrap;">
+        <%= link_to "Home", root_path, style: "margin-right: 15px;" %>
+        <%= link_to "All Products", products_path, style: "margin-right: 15px;" %>
+        <%= link_to "Search Products", search_products_path, style: "margin-right: 15px;" %>
+        <%= link_to "Categories", categories_path, style: "margin-right: 15px;" %>
+        <%= link_to "Cart", cart_path, style: "margin-right: 15px;" %>
+        <%= link_to "About", about_page_path, style: "margin-right: 15px;" %>
+        <%= link_to "Contact", contact_page_path, style: "margin-right: 15px;" %>
+
+        <% if customer_signed_in? %>
+          <span style="margin-right: 10px;">Hello, <%= current_customer.email %></span>
+          <%= link_to "Logout", destroy_customer_session_path, method: :delete, style: "margin-right: 15px;" %>
+        <% else %>
+          <%= link_to "Login", new_customer_session_path, style: "margin-right: 15px;" %>
+          <%= link_to "Register", new_customer_registration_path, style: "margin-right: 15px;" %>
+        <% end %>
+      </nav>
+    </header>
+
+    <main style="padding: 20px;">
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<h2>Browse by Category</h2>
+<ul>
+  <% @categories.each do |category| %>
+    <li>
+      <%= link_to category.name, category_products_path(category) %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Filter Products</h2>
+<ul>
+  <li><%= link_to "All Products", root_path %></li>
+  <li><%= link_to "New Products (Last 3 Days)", root_path(filter: "new") %></li>
+  <li><%= link_to "Recently Updated (Last 3 Days)", root_path(filter: "recent") %></li>
+</ul>
+
+<h2>All Products</h2>
+<% @products.each do |product| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+    <h3><%= product.name %></h3>
+    <p><%= product.description %></p>
+    <p><strong>Price:</strong> $<%= product.price %></p>
+    <p><strong>Stock:</strong> <%= product.stock %></p>
+    <p><strong>Created At:</strong> <%= product.created_at.strftime("%b %d, %Y") %></p>
+    <p><strong>Updated At:</strong> <%= product.updated_at.strftime("%b %d, %Y") %></p>
+    <%= link_to 'View Details', product_path(product) %>
+  </div>
+<% end %>
+
+<%= paginate @products %>

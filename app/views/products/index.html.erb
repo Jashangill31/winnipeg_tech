@@ -1,0 +1,25 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Products" %>
+
+<h1>Products</h1>
+
+<div id="products">
+  <% @products.each do |product| %>
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+      <%= render product %>
+      <p><%= link_to "Show this product", product_path(product) %></p>
+
+      <!-- Add to Cart Form -->
+      <%= form_with url: cart_items_path, method: :post do %>
+        <%= hidden_field_tag :product_id, product.id %>
+        <%= number_field_tag :quantity, 1, min: 1 %>
+        <%= submit_tag "Add to Cart" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @products %>
+
+<%= link_to "New product", new_product_path %>

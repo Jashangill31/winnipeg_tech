@@ -1,0 +1,38 @@
+<h1>Order Summary</h1>
+
+<p><strong>Order ID:</strong> <%= @order.id %></p>
+<p><strong>Status:</strong> <%= @order.status %></p>
+<p><strong>Total:</strong> $<%= @order.total %></p>
+
+<h3>Pay with Credit Card</h3>
+
+<%= form_tag pay_order_path(@order), id: "payment-form", method: :post do %>
+  <div id="card-element" style="margin-bottom: 10px;"></div>
+  <div id="card-errors" role="alert" style="color:red;"></div>
+  <%= submit_tag "Pay Now", class: "btn btn-primary" %>
+<% end %>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
+
+  const form = document.getElementById("payment-form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const { token, error } = await stripe.createToken(card);
+    if (error) {
+      document.getElementById("card-errors").textContent = error.message;
+    } else {
+      const hiddenInput = document.createElement("input");
+      hiddenInput.setAttribute("type", "hidden");
+      hiddenInput.setAttribute("name", "stripeToken");
+      hiddenInput.setAttribute("value", token.id);
+      form.appendChild(hiddenInput);
+      form.submit();
+    }
+  });
+</script>

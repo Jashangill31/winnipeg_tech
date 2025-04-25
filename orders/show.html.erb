@@ -1,0 +1,44 @@
+<div class="order-summary" style="padding: 20px; border: 1px solid #ccc; border-radius: 10px; margin-bottom: 30px;">
+  <h2>Order Summary</h2>
+
+  <p><strong>Order ID:</strong> <%= @order.id %></p>
+  <p><strong>Status:</strong> <%= @order.status.titleize %></p>
+  <p><strong>Created At:</strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
+
+  <hr>
+
+  <p><strong>GST:</strong> <%= number_to_currency(@order.gst, unit: "$") %></p>
+  <p><strong>PST:</strong> <%= number_to_currency(@order.pst, unit: "$") %></p>
+  <p><strong>HST:</strong> <%= number_to_currency(@order.hst, unit: "$") %></p>
+  <p><strong>Total:</strong> <%= number_to_currency(@order.total, unit: "$") %></p>
+
+  <% unless @order.paid? %>
+    <%= button_to "Pay with Credit Card", pay_order_path(@order), method: :post, class: "btn btn-primary", style: "margin-top: 10px;" %>
+  <% end %>
+
+  <%= link_to "Download Invoice (PDF)", invoice_order_path(@order, format: :pdf), class: "btn btn-secondary", style: "margin-left: 10px;" %>
+</div>
+
+<div class="order-items" style="padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+  <h3>Items in this Order</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border-bottom: 1px solid #ccc; text-align: left;">Product</th>
+        <th style="border-bottom: 1px solid #ccc;">Quantity</th>
+        <th style="border-bottom: 1px solid #ccc;">Price</th>
+        <th style="border-bottom: 1px solid #ccc;">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |item| %>
+        <tr>
+          <td><%= item.product.name %></td>
+          <td style="text-align: center;"><%= item.quantity %></td>
+          <td style="text-align: center;"><%= number_to_currency(item.price, unit: "$") %></td>
+          <td style="text-align: center;"><%= number_to_currency(item.price * item.quantity, unit: "$") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

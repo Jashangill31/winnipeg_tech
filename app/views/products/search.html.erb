@@ -1,0 +1,29 @@
+<h1>Search Products</h1>
+
+<%= form_with url: search_products_path, method: :get, local: true do %>
+  <div>
+    <label>Keyword:</label>
+    <%= text_field_tag :keyword, params[:keyword] %>
+  </div>
+
+  <div>
+    <label>Category:</label>
+    <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, @selected_category), include_blank: "All Categories" %>
+  </div>
+
+  <%= submit_tag "Search" %>
+<% end %>
+
+<hr>
+
+<h2>Results:</h2>
+<% @products.each do |product| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+    <h3><%= product.name %></h3>
+    <p><%= product.description %></p>
+    <p><strong>Price:</strong> $<%= product.price %></p>
+    <%= link_to 'View Details', product_path(product) %>
+  </div>
+<% end %>
+
+<%= paginate @products %>

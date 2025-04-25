@@ -1,0 +1,29 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: winnipeg_tech_hub_development
+  username: postgres
+  password: '123456789'
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  database: winnipeg_tech_hub_test
+  username: postgres
+  password: '123456789'
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  database: winnipeg_tech_hub_production
+  username: winnipeg_tech_hub
+  password: <%= ENV["WINNIPEG_TECH_HUB_DATABASE_PASSWORD"] %>
+  host: localhost
+  port: 5432

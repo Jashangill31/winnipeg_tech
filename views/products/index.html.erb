@@ -1,0 +1,11 @@
+<h2>Filter Products</h2>
+<%= link_to "All Products", products_path %> |
+<%= link_to "New Products", products_path(filter: "new") %> |
+<%= link_to "Recently Updated", products_path(filter: "recently_updated") %>
+
+<h2>Search Products</h2>
+<%= form_with url: products_path, method: :get, local: true do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Search products..." %>
+  <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), include_blank: "All Categories" %>
+  <%= submit_tag "Search" %>
+<% end %>
