@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 # Core Rails dependencies
 gem "rails", "~> 7.2.2", ">= 7.2.2.1"
-gem "pg", "~> 1.1"                  # PostgreSQL database
+gem "pg", "~> 1.6"                  # PostgreSQL database
 gem "puma", ">= 5.0"                # Web server
 gem "sprockets-rails"              # Asset pipeline for Rails
 gem "importmap-rails"              # JS import maps
